@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="style" href="student.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<table id="table" class="table table-bordered " contenteditable="true">
+    <th>Student Id</th>
+    <th>Name</th>
+    <th>Class</th>
+    <th>Marks</th>
+    <th>College Name</th>
+    <th>City</th>
+    <th>Update</th>
+    <th>Delete</th>
+</table>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination pagination-sm">
+        <li class="page-item">
+            <a class="page-link" href="form.html" aria-label="Previous">
+                <span aria-hidden="true">Previous</span>
+            </a>
+        </li>
+        <li class="page-item"><a class="page-link" href="pagination1.html">1</a></li>
+        <li class="page-item"><a class="page-link" href="pagination2.html">2</a></li>
+
+        <li class="page-item">
+            <a class="page-link" href="pagination3.html" aria-label="Next">
+                <span aria-hidden="true">Next</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<body>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script>
+        // https://jsonplaceholder.typicode.com/todos/
+        $(document).ready(function () {
+    
+        function getData()
+        {
+            $.ajax({
+                // url: "https://jsonplaceholder.typicode.com/todos",
+                url: "http://localhost:3000/student/get-record/",
+                type: "GET",
+                success: function (data) {
+                    console.log("Data", data)
+                    var row = $("<tr></tr>");
+                    data.slice(0, 15).forEach(function (item) {
+
+                        let attributes = {
+                            id: "rowId",
+                        }
+
+                        const apiData = data;
+                        localStorage.setItem("apiData", JSON.stringify(apiData))
+                      
+                        localStorage.setItem("city",city);
+                   
+                        var row = $("<tr></tr>").attr(attributes)
+
+                        var idCell = $("<td></td>").text(item._id)
+
+                        var nameCell = $("<td></td>").text(item.name).attr("id", "same")
+                        var clasCell = $("<td></td>").text(item.class).attr("id", "same")
+                        var marksCell = $("<td></td>").text(item.marks).attr("id", "same")
+                    
+                        var collegeNameCell = $("<td></td>").text(item.collegeName).attr("id", "same")
+                        var city = $("<td></td>").text(item.city).attr("id", "same")
+                        var deleteCell = $("<td></td>");
+
+                        var updateCell = $("<td></td>");
+
+                        var buttonDelete = $("<button id='delete-btn' class='delete-btn' recordid=" + item._id + ">Delete</button>");
+                        var buttonUpdate = $("<button id='update-btn' class='update-btn' updateid=" + item._id + ">Update</button>");
+                        deleteCell.append(buttonDelete);
+                        updateCell.append(buttonUpdate);
+                        row.append(idCell, nameCell, clasCell, marksCell, collegeNameCell, city, deleteCell, updateCell);
+                        $("#table").append(row);
+                    })
+
+                    function navigateTo(page, id) {
+                        let nextUrl = `form.html?id=${page}`;
+                        window.location.href = nextUrl;
+                    }
+                  
+                    $(".update-btn").click(function () {
+
+                        let currentId = $(this).attr("updateid");
+                        const UpdatedData = $("#same").text();
+                       // navigateTo(update,currentId)
+                        console.log(UpdatedData)
+
+                        $.ajax({
+                            "url": `http://localhost:3000/student/update-record/${currentId}`,
+                            "type": "PUT",
+                             "data":UpdatedData,
+                             "Content-Type": "application/javascript",
+                            success: function (response) {
+                               console.log(response);
+                               alert("Data updated successfully")
+                               getData();
+                            }
+                        })
+                    })
+                    $(".delete-btn").click(function () {
+                        let currentId = $(this).attr('recordid');
+                        $.ajax({
+                            "url": `http://localhost:3000/student/delete-record/${currentId}`,
+                            "type": "DELETE",
+                            "Content-Type": "application/javascript",
+                            success: function (data) {
+                                alert("Deleted Successfully")
+                                console.log("Deleted Successfully", currentId);
+                                getData();
+                            },
+                        })
+                    })
+                },
+                error: function (error) {
+                    console.log("Error:", error);
+                }
+            });
+        }
+         getData();
+        });
+
+    </script>
+</body>
+
+</html>
+</script>
+</body>
+
+</html>

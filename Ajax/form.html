@@ -1,0 +1,110 @@
+
+<!doctype html>
+<html lang="en">
+    
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="form.css" />
+</head>
+<body>.
+    <div class="container">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" id="txtName" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label>Class</label>
+                <input type="text" id="txtClass" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label>Marks</label>
+                <input type="text" id="txtMarks" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label>College Name</label>
+                <input type="text" id="txtCollegeName" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label>City </label>
+                <input type="text" id="txtCity" class="form-control" required />
+            </div>
+            <button class="btn btn-outline-primary submitbutton" type="button" value="Submit">Submit</button>
+            <button class="btn btn-light"> <a href="student.html">Show</a></button>
+        </div>
+     </div>
+    <!-- <div id="container">
+            <form id="myForm">
+                <div class="main-div">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required/>
+                </div>
+                <div class="main-div">
+                <label for="class">Class</label>
+                <input type="text" id="class" required/>
+                </div>
+                <div class="main-div">
+                <label for="Marks">Marks</label>
+                <input type="text" id="marks" required/>
+               </div>
+               <div class="main-div"> 
+                <label for="collegeName">collegeName</label>
+                <input type="text" id="collegeName"required/>
+            </div>
+            <div class="main-div">
+                <label for="city" >City</label>
+                <input type="text" id="city" required/>
+            </div>
+        <div class="main-div">
+                <input type="submit" value="Submit" >
+            </div>
+            </form>
+        </div> -->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script>
+        jQuery(document).ready(function () {
+
+            $(document).on('click', '.submitbutton', function (e) {
+                var formData = {
+                    name: $("#txtName").val(),
+                    class: $("#txtClass").val(),
+                    marks: $("#txtMarks").val(),
+                    collegeName: $("#txtCollegeName").val(),
+                    city: $("#txtCity").val()
+                };
+                console.log(formData.name + " " + formData.class + " " + formData.marks + " " + formData.collegeName + " " + formData.city)
+                $.ajax({
+                    // url:"http://localhost:3000/student/get-record/",
+                    "type": 'POST',
+                    "url": "http://localhost:3000/student/add-record",
+                    "data": formData,
+                    "Content-Type": "application/javascript",
+                    success: function (response) {
+                        alert("Form  data submitted")
+                        console.log(response);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                })
+            });
+        });
+    </script>
+</body>
+
+</html>
